@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">E-HAUT</string>
+    <string name="hello_world">你好，世界！</string>
+    <string name="action_settings">设置</string>
+    <string name="Login">登 录</string>
+    <string name="Logout">注 销</string>
+    <string name="Service">自服务</string>
+    <string name="Username">用户名</string>
+    <string name="Password">密码</string>
+    <string name="OnlineName">用户名</string>
+    <string name="OnlineIp">地  址</string>
+    <string name="UsedTime">时  间</string>
+    <string name="UsedData">流  量</string>
+</resources>

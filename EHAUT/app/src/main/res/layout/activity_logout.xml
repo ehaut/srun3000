@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:fitsSystemWindows="true">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="56dp"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp">
+
+        <ImageView android:src="@drawable/logo"
+            android:layout_width="wrap_content"
+            android:layout_height="72dp"
+            android:layout_marginBottom="24dp"
+            android:layout_gravity="center_horizontal" />
+
+
+        <TextView
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="OnlineName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/textView_onlinename"/>
+
+        <TextView
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="201616000000"
+                android:layout_width="match_parent"
+                android:layout_gravity="right"
+                android:layout_height="wrap_content" android:id="@+id/onlinename"/>
+
+        <TextView
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="OnlineIp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/textView_onlineip"/>
+
+        <TextView
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="255.255.255.255"
+                android:layout_gravity="right"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/onlineip"/>
+
+        <TextView
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="UsedTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/textView_usedtime"/>
+
+        <TextView
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="99 H 59 M 59 S"
+                android:layout_gravity="right"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/usedtime"/>
+
+        <TextView
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="UsedData"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/textView_useddata"/>
+
+        <TextView
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="999.99 MB"
+                android:layout_gravity="right"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/useddata"/>
+        <!-- Signup Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_logout"
+            style="@style/ColoredButtonAppcompat"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="24dp"
+            android:padding="12dp"
+            android:text="Logout"/>
+
+        <TextView android:id="@+id/link_service2"
+                  android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginBottom="24dp"
+                  android:text="Service"
+                  android:gravity="center"
+                  android:textSize="16dip"/>
+
+
+
+    </LinearLayout>
+</ScrollView>
