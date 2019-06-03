@@ -22,13 +22,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:theme="@style/Theme.AppCompat"
             android:layout_marginBottom="8dp">
             <EditText android:id="@+id/input_username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"
-                android:hint="Username" />
+                android:hint="@string/username" />
         </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -41,7 +40,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
-                android:hint="Password"/>
+                android:hint="@string/password"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
@@ -52,7 +51,7 @@
             android:layout_marginTop="24dp"
             android:layout_marginBottom="24dp"
             android:padding="12dp"
-            android:text="Login"/>
+            android:text="@string/login"/>
 
         <TextView
             android:id="@+id/link_service1"
@@ -60,7 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
             android:gravity="center"
-            android:text="Service"
+            android:text="@string/service"
             android:textSize="16dip" />
 
     </LinearLayout>

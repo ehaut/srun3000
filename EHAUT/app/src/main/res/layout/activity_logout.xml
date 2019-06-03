@@ -23,60 +23,64 @@
         <TextView
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            android:text="OnlineName"
+            android:text="@string/onlinename"
+            android:textStyle="bold"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" android:id="@+id/textView_onlinename"/>
 
         <TextView
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
-                android:text="201616000000"
+                android:text="@string/wait"
                 android:layout_width="match_parent"
-                android:layout_gravity="right"
+                android:gravity="right"
                 android:layout_height="wrap_content" android:id="@+id/onlinename"/>
 
         <TextView
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            android:text="OnlineIp"
+            android:textStyle="bold"
+            android:text="@string/onlineip"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" android:id="@+id/textView_onlineip"/>
 
         <TextView
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
-                android:text="255.255.255.255"
-                android:layout_gravity="right"
+                android:text="@string/wait"
+                android:gravity="right"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" android:id="@+id/onlineip"/>
 
         <TextView
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            android:text="UsedTime"
+            android:text="@string/usedtime"
+            android:textStyle="bold"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" android:id="@+id/textView_usedtime"/>
 
         <TextView
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
-                android:text="99 H 59 M 59 S"
-                android:layout_gravity="right"
+                android:text="@string/wait"
+                android:gravity="right"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" android:id="@+id/usedtime"/>
 
         <TextView
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            android:text="UsedData"
+            android:text="@string/useddata"
+            android:textStyle="bold"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" android:id="@+id/textView_useddata"/>
 
         <TextView
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
-                android:text="999.99 MB"
-                android:layout_gravity="right"
+                android:text="@string/wait"
+                android:gravity="right"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" android:id="@+id/useddata"/>
         <!-- Signup Button -->
@@ -88,13 +92,13 @@
             android:layout_marginTop="24dp"
             android:layout_marginBottom="24dp"
             android:padding="12dp"
-            android:text="Logout"/>
+            android:text="@string/logout"/>
 
         <TextView android:id="@+id/link_service2"
                   android:layout_width="fill_parent"
                   android:layout_height="wrap_content"
                   android:layout_marginBottom="24dp"
-                  android:text="Service"
+                  android:text="@string/service"
                   android:gravity="center"
                   android:textSize="16dip"/>
 

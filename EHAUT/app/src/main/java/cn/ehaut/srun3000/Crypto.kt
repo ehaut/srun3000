@@ -1,5 +1,7 @@
 package cn.ehaut.srun3000
 
+// Thanks to qianchengyu
+
 class Crypto {
     companion object {
         fun usrEncode(usr: String): String {
