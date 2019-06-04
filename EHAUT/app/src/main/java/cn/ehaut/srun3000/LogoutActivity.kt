@@ -130,5 +130,9 @@ class LogoutActivity : AppCompatActivity() {
         Log.d(TAG, "Logout")
         Network.logout(OnlineInfo.onlineUsername)
     }
+
+    override fun onBackPressed() {
+        moveTaskToBack(true)
+    }
 }
 
