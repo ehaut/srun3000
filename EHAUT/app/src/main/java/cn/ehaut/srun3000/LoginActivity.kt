@@ -1,19 +1,21 @@
 package cn.ehaut.srun3000
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.os.Message
 import android.util.Log
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_login.*
 
 
-
-
-
 class  LoginActivity : AppCompatActivity() {
+
     private val TAG = "LoginActivity"
     private var preferences: SharedPreferences? = null
 
@@ -26,18 +28,50 @@ class  LoginActivity : AppCompatActivity() {
             PostResult.isLoginOK = false
             PostResult.networkIsConnect = false
             PostResult.isLogoutOK = false
+            PostResult.networkIsConnect = false
         } else {
             Network.getUserInfo()
-            if(OnlineInfo.networkIsConnect && OnlineInfo.isOnline) {
-                //网络连接成功，且在线，跳转到注销页
+        }
+    }
+
+
+    private fun handleGetFinished() {
+        handler?.removeCallbacksAndMessages(null)
+        if(OnlineInfo.networkIsConnect && OnlineInfo.isOnline) {
+            //网络连接成功，且在线，跳转到注销页
+            startActivity(Intent(this, LogoutActivity::class.java))
+        } else if(!OnlineInfo.networkIsConnect) {
+            //网络连接错误，提示网络错误
+            Toast.makeText(baseContext, "网络连接错误！", Toast.LENGTH_LONG).show()
+        } else if (OnlineInfo.networkIsConnect && !OnlineInfo.isOnline) {
+            //网络连接成功，且不在线
+            Toast.makeText(baseContext, "获取状态成功！", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun handlePostFinished() {
+        handler?.removeCallbacksAndMessages(null)
+        Log.d("Do","Here2")
+        if (PostResult.networkIsConnect) {
+            if (PostResult.result.contains("login_ok")) {
+                PostResult.isLoginOK = true
+                saveUserInfo(UserInfo.username, UserInfo.password)
+                btn_login.isEnabled = true
                 startActivity(Intent(this, LogoutActivity::class.java))
-            } else if(!OnlineInfo.networkIsConnect) {
-                //网络连接错误，提示网络错误
-                Toast.makeText(baseContext, "网络连接错误！", Toast.LENGTH_LONG).show()
-            } else if (OnlineInfo.networkIsConnect && !OnlineInfo.isOnline) {
-                //网络连接成功，且不在线
-                Toast.makeText(baseContext, "获取状态成功！", Toast.LENGTH_LONG).show()
+            } else {
+                PostResult.isLoginOK = false
+                if (PostResult.result.contains("login_error#INFO failed, BAS respond timeout.")) {
+                    ServerInfo.acid = "2"
+                    Network.Login(UserInfo.username,  UserInfo.password.toCharArray())
+                }
+                else {
+                    Toast.makeText(baseContext, PostResult.result, Toast.LENGTH_LONG).show()
+                    btn_login.isEnabled = true
+                }
             }
+        } else {
+            Toast.makeText(baseContext, "网络连接错误！", Toast.LENGTH_LONG).show()
+            btn_login.isEnabled = true
         }
     }
 
@@ -51,6 +85,17 @@ class  LoginActivity : AppCompatActivity() {
         }
         btn_login.setOnClickListener {
             login()
+        }
+        handler = @SuppressLint("HandlerLeak")
+        object : Handler() {
+            override fun handleMessage(msg: Message?) {
+                super.handleMessage(msg)
+                Log.d("msg",msg.toString())
+                when (msg!!.what) {
+                    1 -> handleGetFinished()
+                    2 -> handlePostFinished()
+                }
+            }
         }
     }
 
@@ -80,41 +125,14 @@ class  LoginActivity : AppCompatActivity() {
         val username = input_username.getText().toString()
         val password = input_password.getText().toString()
 
-        while (true) {
-            val response = Network.Login(username, password.toCharArray())
-            Log.d(TAG, response)
-            Log.d(TAG, PostResult.networkIsConnect.toString())
-            if (PostResult.networkIsConnect) {
-                if (response.contains("login_ok")) {
-                    PostResult.isLoginOK = true
-                    saveUserInfo(username, password)
-                    btn_login.isEnabled = true
-                    break
-                } else {
-                    PostResult.isLoginOK = false
-                    if (response.contains("login_error#INFO failed, BAS respond timeout.")) {
-                        ServerInfo.acid = "2"
-                        continue
-                    }
-                    else {
-                        Toast.makeText(baseContext, response, Toast.LENGTH_LONG).show()
-                        btn_login.isEnabled = true
-                        break
-                    }
-                }
-            } else {
-                Toast.makeText(baseContext, "网络连接错误！", Toast.LENGTH_LONG).show()
-                btn_login.isEnabled = true
-                break
-            }
-        }
-        if(PostResult.isLoginOK) {
-            startActivity(Intent(this, LogoutActivity::class.java))
-        }
+        UserInfo.username = username
+        UserInfo.password = password
+
+        Network.Login(username, password.toCharArray())
+
     }
 
     private fun saveUserInfo(username:String,password:String) {
-
         val editor = preferences?.edit()
         editor?.putString("username",username)
         editor?.putString("password",password);

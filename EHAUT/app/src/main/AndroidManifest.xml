@@ -13,15 +13,22 @@
             android:networkSecurityConfig="@xml/network_security_config"
             android:supportsRtl="true"
             android:theme="@style/AppTheme" tools:ignore="GoogleAppIndexingWarning" tools:targetApi="m">
-        <activity android:name="cn.ehaut.srun3000.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+        <!--<activity android:name="cn.ehaut.srun3000.MainActivity">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN"/>-->
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <!--<category android:name="android.intent.category.LAUNCHER"/>-->
+
+            <!--</intent-filter>-->
+        <!--</activity>-->
+        <activity android:name="cn.ehaut.srun3000.LoginActivity" android:theme="@style/AppTheme.Dark" >
+            <intent-filter>
+            <action android:name="android.intent.action.MAIN"/>
+
+            <category android:name="android.intent.category.LAUNCHER"/>
 
             </intent-filter>
         </activity>
-        <activity android:name="cn.ehaut.srun3000.LoginActivity" android:theme="@style/AppTheme.Dark" />
         <activity android:name="cn.ehaut.srun3000.LogoutActivity" android:theme="@style/AppTheme.Dark"/>
         <activity android:name="cn.ehaut.srun3000.WebActivity" android:theme="@style/AppTheme.Dark"/>
     </application>

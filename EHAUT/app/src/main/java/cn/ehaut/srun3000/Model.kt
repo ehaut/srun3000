@@ -1,4 +1,5 @@
 package cn.ehaut.srun3000
+import android.os.Handler
 
 //   与ios版保持一致
 //  see here:https://github.com/ehaut/E-HAUT/blob/master/E-HAUT/Model/AppPreferences.swift
@@ -12,7 +13,7 @@ public object OnlineInfo{
     var onlineIp:String = ""
     var onlineUsername:String = ""
     var usedData:String = ""
-    var usedTime:Long = 0
+    var usedTime:Int = 0
 }
 
 public object ServerInfo {
@@ -33,4 +34,14 @@ public object PostResult {
     var networkIsConnect:Boolean = false
     var isLoginOK:Boolean = false
     var isLogoutOK:Boolean = false
+    var result:String = ""
+}
+
+
+var handler:Handler? = null
+
+
+public object UserInfo {
+    var username:String = ""
+    var password:String = ""
 }

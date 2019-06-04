@@ -1,25 +1,67 @@
 package cn.ehaut.srun3000
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Message
 import android.util.Log
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_logout.*
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.concurrent.timerTask
+import kotlin.concurrent.schedule
 
 class LogoutActivity : AppCompatActivity() {
     private val TAG = "LogoutActivity"
-    private var time:Long = 0
-    private var timer: Timer? = null
-    private var task: TimerTask? = null
-    private var sdf:SimpleDateFormat? = null
+    private var time:Int = 0
+    private var signal:Boolean = false
 
     override fun onPause() {
         super.onPause()
-        stopTimer()
+        signal = false
+    }
+
+    private fun handleGetFinished() {
+        handler?.removeCallbacksAndMessages(null)
+        if(OnlineInfo.networkIsConnect && OnlineInfo.isOnline) {
+            //网络连接成功，且在线，留在本页，提示重新获取状态成功
+            setDisplay()
+            Toast.makeText(baseContext, "获取状态成功！", Toast.LENGTH_LONG).show()
+        } else if(!OnlineInfo.networkIsConnect) {
+            //网络连接错误，提示网络错误，跳转到登陆页
+            signal = false
+            startActivity(Intent(this, LoginActivity::class.java))
+        } else if (OnlineInfo.networkIsConnect && !OnlineInfo.isOnline) {
+            //网络连接成功，且不在线，跳转到登录页
+            signal = false
+            startActivity(Intent(this, LoginActivity::class.java))
+        }
+    }
+
+    private fun handlePostFinished() {
+        handler?.removeCallbacksAndMessages(null)
+        if(PostResult.networkIsConnect) {
+            if(PostResult.isLogoutOK)   {
+                btn_logout.isEnabled = true
+                signal = false
+                startActivity(Intent(this, LoginActivity::class.java))
+            } else {
+                if(PostResult.result.contains("You are not online.")) {
+                    btn_logout.isEnabled = true
+                    signal = false
+                    startActivity(Intent(this, LoginActivity::class.java))
+                } else {
+                    Toast.makeText(baseContext, PostResult.result, Toast.LENGTH_LONG).show()
+                    btn_logout.isEnabled = true
+                }
+            }
+        } else {
+            btn_logout.isEnabled = true
+            signal = false
+            startActivity(Intent(this, LoginActivity::class.java))
+        }
     }
 
     override fun onResume() {
@@ -28,51 +70,36 @@ class LogoutActivity : AppCompatActivity() {
             PostResult.isLoginOK = false
             PostResult.networkIsConnect = false
             PostResult.isLogoutOK = false
+            PostResult.networkIsConnect = false
             Network.getUserInfo()
-            setDisplay()
             Toast.makeText(baseContext, "登录成功！", Toast.LENGTH_LONG).show()
         } else {
             Network.getUserInfo()
-            if(OnlineInfo.networkIsConnect && OnlineInfo.isOnline) {
-                //网络连接成功，且在线，留在本页，提示重新获取状态成功
-                setDisplay()
-                Toast.makeText(baseContext, "获取状态成功！", Toast.LENGTH_LONG).show()
-            } else if(!OnlineInfo.networkIsConnect) {
-                //网络连接错误，提示网络错误，跳转到登陆页
-                stopTimer()
-                startActivity(Intent(this, LoginActivity::class.java))
-            } else if (OnlineInfo.networkIsConnect && !OnlineInfo.isOnline) {
-                //网络连接成功，且不在线，跳转到登录页
-                stopTimer()
-                startActivity(Intent(this, LoginActivity::class.java))
-            }
         }
     }
 
-    // 停止定时器
-    private fun stopTimer() {
-        if (timer != null) {
-            timer!!.cancel()
-            // 一定设置为null，否则定时器不会被回收
-            timer = null
-        }
-    }
-
+    //
+    @SuppressLint("SimpleDateFormat")
     private fun setDisplay() {
         onlinename.text = OnlineInfo.onlineUsername
         onlineip.text = OnlineInfo.onlineIp
         useddata.text = OnlineInfo.usedData
-        sdf = SimpleDateFormat("HH 小时 mm 分 ss 秒")
-        time = OnlineInfo.usedTime
 
-        task = timerTask {
-            usedtime.text = sdf!!.format(Date(time))
-            time++
-        }
-        timer = Timer()
-        timer!!.schedule(task, 1000)
+        signal = true
+        handler?.sendEmptyMessage(3)
     }
 
+    private fun reresh() {
+        time += 1
+        var hour = (time/3600) as Int
+        val minute = (time / 60) as Int % 60
+        val second = (time % 60) as Int
+        val show:String = hour.toString() + " 小时 " + minute.toString() + " 分 " + second + " 秒"
+        usedtime.setText(show)
+        if(signal) {
+            handler?.sendEmptyMessageDelayed(3, 1000);
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,34 +110,25 @@ class LogoutActivity : AppCompatActivity() {
         btn_logout.setOnClickListener {
             logout()
         }
+        handler = @SuppressLint("HandlerLeak")
+        object : Handler() {
+            override fun handleMessage(msg: Message?) {
+                super.handleMessage(msg)
+                Log.d("msg",msg.toString())
+                when (msg!!.what) {
+                    1 -> handleGetFinished()
+                    2 -> handlePostFinished()
+                    3 -> reresh()
+                }
+            }
+        }
+        time = OnlineInfo.usedTime
     }
 
     private fun logout() {
         btn_logout.isEnabled = false
         Log.d(TAG, "Logout")
-        val response = Network.logout(OnlineInfo.onlineUsername)
-        Log.d(TAG, response)
-        if(PostResult.networkIsConnect) {
-            if(PostResult.isLogoutOK)   {
-                btn_logout.isEnabled = true
-                stopTimer()
-                startActivity(Intent(this, LoginActivity::class.java))
-            } else {
-                if(response.contains("You are not online.")) {
-                    btn_logout.isEnabled = true
-                    stopTimer()
-                    startActivity(Intent(this, LoginActivity::class.java))
-                } else {
-                    Toast.makeText(baseContext, response, Toast.LENGTH_LONG).show()
-                    btn_logout.isEnabled = true
-                }
-            }
-        } else {
-            btn_logout.isEnabled = true
-            stopTimer()
-            startActivity(Intent(this, LoginActivity::class.java))
-        }
+        Network.logout(OnlineInfo.onlineUsername)
     }
-
 }
 
