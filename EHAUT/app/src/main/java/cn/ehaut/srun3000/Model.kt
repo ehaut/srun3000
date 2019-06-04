@@ -1,4 +1,5 @@
 package cn.ehaut.srun3000
+import android.os.Handler
 
 //   与ios版保持一致
 //  see here:https://github.com/ehaut/E-HAUT/blob/master/E-HAUT/Model/AppPreferences.swift
@@ -7,29 +8,40 @@ package cn.ehaut.srun3000
 //
 
 public object OnlineInfo{
-    val networkIsConnect:Boolean = false
-    val isOnline:Boolean = false
-    val onlineIp:String = ""
-    val onlineUsername:String = ""
-    val usedData:String = ""
-    val usedTime:Int = 0
-    val serverTime:Int = 0
-    val loginTime:Int = 0
+    var networkIsConnect:Boolean = false
+    var isOnline:Boolean = false
+    var onlineIp:String = ""
+    var onlineUsername:String = ""
+    var usedData:String = ""
+    var usedTime:Int = 0
 }
 
 public object ServerInfo {
     //服务器地址示范http://172.16.154.130，请不要忘了http://头以及没有最后/符号
-    val authServerAddr:String = "http://172.16.154.130"
-    val authServerPort:String = "69"
-    val serviceServerAddr:String = "http://172.16.154.130"
-    val serviceServerPort:String = "8800"
-    val macAddr:String = ""
-    val acid:String = "1"
-    val type:String = "3"
-    val drop:String = "0"
-    val pop:String = "1"
-    val key:String = "1234567890"
+    var authServerAddr:String = "http://172.16.154.130"
+    var authServerPort:String = "69"
+    var serviceServerAddr:String = "http://172.16.154.130"
+    var serviceServerPort:String = "8800"
+    var macAddr:String = ""
+    var acid:String = "1"
+    var type:String = "3"
+    var drop:String = "0"
+    var pop:String = "1"
+    var key:String = "1234567890"
+}
+
+public object PostResult {
+    var networkIsConnect:Boolean = false
+    var isLoginOK:Boolean = false
+    var isLogoutOK:Boolean = false
+    var result:String = ""
 }
 
 
+var handler:Handler? = null
 
+
+public object UserInfo {
+    var username:String = ""
+    var password:String = ""
+}
