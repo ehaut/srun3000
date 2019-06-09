@@ -7,7 +7,6 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
-import android.os.Looper
 import android.os.Message
 import android.util.Log
 import android.widget.Toast
@@ -61,7 +60,11 @@ class  LoginActivity : AppCompatActivity() {
             } else {
                 PostResult.isLoginOK = false
                 if (PostResult.result.contains("login_error#INFO failed, BAS respond timeout.")) {
-                    ServerInfo.acid = "2"
+                    if(ServerInfo.acid == "1"){
+                        ServerInfo.acid = "2"
+                    } else {
+                        ServerInfo.acid = "1"
+                    }
                     Network.Login(UserInfo.username,  UserInfo.password.toCharArray())
                 }
                 else {
@@ -81,6 +84,10 @@ class  LoginActivity : AppCompatActivity() {
         preferences = applicationContext.getSharedPreferences("UserInfo", Context.MODE_PRIVATE)
         loadUserInfo()
         link_service1.setOnClickListener{
+            val username = input_username.getText().toString()
+            val password = input_password.getText().toString()
+            UserInfo.username = username
+            UserInfo.password = password
             startActivity(Intent(this, WebActivity::class.java))
         }
         btn_login.setOnClickListener {
@@ -171,4 +178,5 @@ class  LoginActivity : AppCompatActivity() {
     override fun onBackPressed() {
         moveTaskToBack(true)
     }
+
 }

@@ -9,9 +9,7 @@ import android.os.Message
 import android.util.Log
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_logout.*
-import java.text.SimpleDateFormat
-import java.util.*
-import kotlin.concurrent.schedule
+
 
 class LogoutActivity : AppCompatActivity() {
     private val TAG = "LogoutActivity"
